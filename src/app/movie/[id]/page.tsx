@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getMovieDetail } from "@/lib/tmdb/api";
 import WishlistButton from "@/components/movie/WishlistButton";
 import { supabaseServer } from "@/lib/supabase/server";
+import ReviewButton from "@/components/movie/ReviewButton";
 
 type MovieDetailPageProps = {
   params: Promise<{
@@ -22,7 +23,9 @@ type ReviewRow = {
   }[];
 };
 
-export default async function MovieDetailPage({ params }: MovieDetailPageProps) {
+export default async function MovieDetailPage({
+  params,
+}: MovieDetailPageProps) {
   const { id } = await params;
   const tmdbId = Number(id);
 
@@ -75,7 +78,7 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
       profiles (
         username
       )
-    `
+    `,
     )
     .eq("tmdb_id", tmdbId)
     .order("created_at", { ascending: false });
@@ -147,22 +150,7 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
           {/* 操作ボタン */}
           <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
             <WishlistButton tmdbId={tmdbId} initialIsWished={initialIsWished} />
-
-            <Link
-              href={`/movie/${tmdbId}/review`}
-              style={{
-                padding: "10px 14px",
-                borderRadius: "10px",
-                border: "1px solid #ccc",
-                textDecoration: "none",
-                color: "#333",
-                display: "inline-flex",
-                alignItems: "center",
-              }}
-            >
-              レビューする
-            </Link>
-
+            <ReviewButton tmdbId={tmdbId} isLoggedIn={!!user}/>
             <button
               style={{
                 padding: "10px 14px",
