@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { getMovieDetail } from "@/lib/tmdb/api";
 import WishlistButton from "@/components/movie/WishlistButton";
-import { supabaseServer } from "@/lib/supabase/server";
 import ReviewButton from "@/components/movie/ReviewButton";
+import ShareButton from "@/components/movie/ShareButton";
+import { supabaseServer } from "@/lib/supabase/server";
 
 type MovieDetailPageProps = {
   params: Promise<{
@@ -150,23 +151,13 @@ export default async function MovieDetailPage({
           {/* 操作ボタン */}
           <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
             <WishlistButton tmdbId={tmdbId} initialIsWished={initialIsWished} />
-            <ReviewButton tmdbId={tmdbId} isLoggedIn={!!user}/>
-            <button
-              style={{
-                padding: "10px 14px",
-                borderRadius: "10px",
-                border: "1px solid #ccc",
-                background: "#fff",
-                cursor: "pointer",
-              }}
-            >
-              シェア（仮）
-            </button>
+            <ReviewButton tmdbId={tmdbId} isLoggedIn={!!user} />
+            <ShareButton tmdbId={tmdbId} />
           </div>
 
           {!user ? (
             <p style={{ marginTop: "12px", color: "#666", fontSize: "12px" }}>
-              ※観たい機能を使うにはログインが必要です
+              ※観たい機能とレビュー機能を使うにはログインが必要です
             </p>
           ) : null}
         </div>
